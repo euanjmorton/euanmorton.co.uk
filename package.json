@@ -1,0 +1,22 @@
+{
+  "name": "euanmortonwebsite",
+  "version": "0.0.1",
+  "description": "Website for euanmorton.co.uk",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/euanjmorton/euanmorton.co.uk.git"
+  },
+  "author": "Euan Morton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/euanjmorton/euanmorton.co.uk/issues"
+  },
+  "homepage": "https://github.com/euanjmorton/euanmorton.co.uk#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
