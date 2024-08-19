@@ -1,0 +1,21 @@
+[Unit] 
+Description=EuanMorton.co.uk Server  
+
+
+[Service] 
+
+ExecStart=/usr/bin/node /home/ubuntu/emcouk/emcouk.js 
+
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+Restart=always
+Restart=on-failure 
+
+# Output to syslog
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=nodejs-my-server-example
+
+
+[Install] 
+WantedBy=multi-user.target
