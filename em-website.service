@@ -4,7 +4,7 @@ Description=EuanMorton.co.uk Server
 
 [Service] 
 
-ExecStart=/usr/bin/node /home/ubuntu/emcouk/emcouk.js 
+ExecStart=/usr/bin/node /home/ubuntu/emcouk/index.js 
 
 # Restart service after 10 seconds if node service crashes
 RestartSec=10
