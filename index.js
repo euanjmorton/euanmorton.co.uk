@@ -12,7 +12,11 @@ const mysql = require('mysql2');
 //remove MIME type executable error
 app.use(express.static(__dirname + "/public"))
 
-app.use("/", router);
+
+
+var apiRoutes = require('./routes/api');
+
+//app.use("/", router);
 
 router.get("/", (req, res, next) => {
     console.log("hello 1")
@@ -37,12 +41,15 @@ router.get('/temps', function(req,res){
         if (err) throw err;
         console.log("Connected!");
         
-        con.query("SELECT * FROM Pinter_Pi.Temperature", function (err, result) {
+        /*con.query("SELECT * FROM Pinter_Pi.Temperature", function (err, result) {
             if (err) throw err;
             console.log("result",result);
-        });
+        });*/
     });  
 })
+
+app.use('/', router);
+app.use('/api', apiRoutes);
 
 // Server setup 
 app.listen(80, () => {
