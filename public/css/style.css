@@ -1,0 +1,25 @@
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+    margin:0;
+}
+
+#header{
+    height: 50px;
+    background-color: #2e3133;
+}
+#mainContainer{
+    height: 100%;
+    display: flex;
+}
+#sideBarContainer{
+    height: 100%;
+    width: 200px;
+    background-color: #1133ee;
+}
+
+.graphContainer img{
+    height: 200px;
+}

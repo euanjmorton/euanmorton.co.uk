@@ -20,7 +20,8 @@ var apiRoutes = require('./routes/api');
 
 router.get("/", (req, res, next) => {
     console.log("hello 1")
-    res.send("This is the 1 response");
+    //res.send("This is the 1 response");
+    res.sendFile(__dirname + "/public/views/index.html");  
 })
 
 // Handling GET /hello request 
@@ -52,7 +53,8 @@ app.use('/', router);
 app.use('/api', apiRoutes);
 
 // Server setup 
-app.listen(80, () => {
+//app.listen(80, () => {
+app.listen(3000, () => {
     console.log("Server is Running on port 80...")
 }) 
    /* var port = process.env.PORT || 3000;
