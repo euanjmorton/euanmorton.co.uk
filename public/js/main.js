@@ -12,5 +12,23 @@ $( document ).ready(function() {
             $("#sideBarContainer").css("width", "200px");
         }
     });
+
+    //get temp:
+    $.ajax({
+        url: "/api/getFridgeStatusText",
+        dataType: 'json',
+        crossDomain: true,
+        timeout: 4000,
+        success: function (data,status,xhr) {
+            console.log(data);
+            $('#heatingMessage').text(data.message);
+            $('#currentTemp').text(data.temperature);
+        },
+        error: function (jqXhr, textStatus, errorMessage) { 
+            console.log('jqXhr: ' + jqXhr); 
+            console.log('error: ' + textStatus); 
+            console.log('data: ' + errorMessage);
+        }
+      });
     
 });
