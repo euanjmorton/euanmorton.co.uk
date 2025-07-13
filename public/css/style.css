@@ -32,6 +32,7 @@ body{
 
 #contentContainer{
     margin-left: 35px;
+    padding-left: 10px;
 }
 
 .graphContainer img{
