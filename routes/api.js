@@ -9,6 +9,14 @@ router.use((req, res, next) => {
     next();
 });
 
+router.get('/getFridgeStatusText', async (req, res) => {
+    console.log("req to getfridge");
+    const response = await fetch('http://192.168.1.248:3000/api/getFridgeStatus');
+    const data = await response.json();
+    console.log(data);  
+    res.send(data);
+});
+
 router.get('/getFridgeStatus', (req, res) => {
     console.log("req to getfridge");
     
