@@ -1,0 +1,48 @@
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+    margin:0;
+}
+
+#header{
+    height: 50px;
+    background-color: #2e3133;
+}
+
+#mainContainer{
+    position: relative;
+    height: 100%;
+    display: flex;
+}
+#sideBarContainer{
+    position: absolute;
+    height: 100%;
+    width: 35px;
+    background-color: #1133ee;
+}
+#burgerButton{
+    height: 25px;
+    position: absolute;
+    right: 6px;
+    top: 4px;
+    cursor: pointer;
+}
+
+#contentContainer{
+    margin-left: 35px;
+    padding-left: 10px;
+}
+
+.graphContainer img{
+    height: 200px;
+}
+
+/*
+ *  Shared Classes:
+ */
+
+.hidden{
+    display: none;
+}
