@@ -1,13 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import burgerIcon from "../../public/burger_icon.png";
 import Image from "next/image";
-import style from "../components/style.module.css";
-import SideBar from "./SideBar";
+import style from "./style.module.css";
 
 interface Props {
-  sideBarView: boolean;
   onClick: () => void;
 }
 
@@ -16,9 +13,11 @@ const BurgerButton = (props: Props) => {
     <Image
       id="burgerButton"
       className={style.burgerButton}
-      src={burgerIcon}
+      src="/burger_icon.png"
       onClick={props.onClick}
       alt="temp graph test"
+      width="20"
+      height="20"
     />
   );
 };
