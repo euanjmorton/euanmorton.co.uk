@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import BurgerButton from "./BurgerButton";
 import style from "./style.module.css";
 import { clsx } from "clsx";
@@ -21,10 +22,16 @@ const SideBar = () => {
     setSideBarVisisbility(!sideBarVisibility);
   }
 
-  var sideBar = clsx({
+  const sideBar = clsx({
     [style.sideBarOpen]: sideBarVisibility === true,
     [style.sideBarClosed]: sideBarVisibility === false,
   });
+  const contentContainer = clsx({
+    [style.sideBarContentShow]: sideBarVisibility === true,
+    [style.sideBarContentHide]: sideBarVisibility === false,
+  });
+
+  const router = useRouter();
 
   return (
     <>
@@ -38,6 +45,22 @@ const SideBar = () => {
         )}
       >
         <BurgerButton onClick={() => togleSidebar()}></BurgerButton>
+        <div
+          id="sideBarContent"
+          className={clsx(contentContainer, "flex flex-col items-center")}
+        >
+          <div className="pt-4">
+            <p>EuanMorton.co.uk</p>
+          </div>
+          <div className="pt-50">
+            <button
+              className="btn btn-Primary"
+              onClick={() => router.push("/pinter")}
+            >
+              Pinter
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );
