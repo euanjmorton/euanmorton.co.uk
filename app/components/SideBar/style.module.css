@@ -10,6 +10,12 @@
 .sideBarClosed{
     width: 37px;
 }
+.sideBarContentShow{
+    display: flex;
+}
+.sideBarContentHide{
+    display: none;
+}
 
 .burgerButton{
     height: 25px;
