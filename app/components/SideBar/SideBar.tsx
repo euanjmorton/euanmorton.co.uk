@@ -6,7 +6,7 @@ import style from "./style.module.css";
 import { clsx } from "clsx";
 
 const SideBar = () => {
-  const [sideBarVisibility, setSideBarVisisbility] = useState(true);
+  const [sideBarVisibility, setSideBarVisisbility] = useState(false);
 
   /*useEffect(() => {
     //code to run
