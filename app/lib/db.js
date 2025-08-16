@@ -1,12 +1,5 @@
 import mysql from "mysql2/promise";
 
-//const pool = mysql.createPool({
-
-const connection = await mysql.createConnection({
-  host: process.env.host,
-  user: process.env.user,
-  password: process.env.password
-});
 
 // Create the connection pool. The pool-specific settings are the defaults
 const pool = mysql.createPool({

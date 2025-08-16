@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { getTemp } from "@/app/lib/temperatures";
 
 const PinterPage = async () => {
-  var currentTemperature = await getTemp();
+  const currentTemperature = await getTemp();
 
   return (
     <>
@@ -11,7 +11,10 @@ const PinterPage = async () => {
       </div>
       <div>
         <h3>Current Temperature:</h3>
-        <p>{currentTemperature}</p>
+
+        <Suspense fallback={<>Loading...</>}>
+          <p>{currentTemperature}</p>
+        </Suspense>
       </div>
       <div></div>
     </>
