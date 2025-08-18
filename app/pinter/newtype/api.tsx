@@ -1,3 +1,4 @@
+"use server";
 import { InsertQuery } from "@/app/lib/queryUtils";
 
 export const createStyle = async (formData: FormData) => {
@@ -16,7 +17,7 @@ export const createStyle = async (formData: FormData) => {
   // mutate data
   // revalidate the cache
 
-  /*const [result] = await InsertQuery(
+  const [result] = await InsertQuery(
     "INSERT INTO brew_styles (" +
       "drink_name," +
       "drink_style," +
@@ -40,13 +41,6 @@ export const createStyle = async (formData: FormData) => {
       ", " +
       rawFormData.abv +
       ")"
-  );
-  return result[0];*/
-  const [result] = await InsertQuery(
-    "INSERT INTO Temperatures (" +
-      "Temperature," +
-      "Date_Time)" +
-      "VALUES (12, '2025-08-15 07:39:04.000')"
   );
   return result[0];
 };
