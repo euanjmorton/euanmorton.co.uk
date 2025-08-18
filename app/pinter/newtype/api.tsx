@@ -1,5 +1,24 @@
 "use server";
 import { InsertQuery } from "@/app/lib/queryUtils";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+
+const fileSchema = z.file();
+
+fileSchema.max(2_000_000);
+fileSchema.mime(["image/png", "image/jpg"]); // MIME type
+
+const FormSchema = z.object({
+  image: fileSchema,
+  name: z.string(),
+  style: z.string(),
+  brew_days: z.coerce.number(),
+  condition_days: z.coerce.number(),
+  rec_brew_days: z.coerce.number(),
+  rec_condition_days: z.coerce.number(),
+  abv: z.coerce.number(),
+});
 
 export const createStyle = async (formData: FormData) => {
   const rawFormData = {
@@ -13,9 +32,7 @@ export const createStyle = async (formData: FormData) => {
     abv: formData.get("abv"),
   };
 
-  console.log(rawFormData);
-  // mutate data
-  // revalidate the cache
+  const data = FormSchema.parse(rawFormData);
 
   const [result] = await InsertQuery(
     "INSERT INTO brew_styles (" +
@@ -25,22 +42,30 @@ export const createStyle = async (formData: FormData) => {
       "conditioning_days," +
       "recommended_brewing_days," +
       "recommended_conditioning_days," +
-      "abv)" +
+      "abv) " +
       "VALUES (" +
-      rawFormData.name +
+      "'" +
+      data.name +
+      "'" +
       ", " +
-      rawFormData.style +
+      "'" +
+      data.style +
+      "'" +
       ", " +
-      rawFormData.brew_days +
+      data.brew_days +
       ", " +
-      rawFormData.condition_days +
+      data.condition_days +
       ", " +
-      rawFormData.rec_brew_days +
+      data.rec_brew_days +
       ", " +
-      rawFormData.rec_condition_days +
+      data.rec_condition_days +
       ", " +
-      rawFormData.abv +
+      data.abv +
       ")"
   );
-  return result[0];
+
+  revalidatePath("/pinter");
+  redirect("/pinter");
+
+  //return result[0];
 };
