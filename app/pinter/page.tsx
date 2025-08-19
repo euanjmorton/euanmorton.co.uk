@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { getTemp } from "@/app/lib/temperatures";
 import PinterButtons from "./PinterButtons";
+import PinterInfos from "./PinterInfos";
 
 const PinterPage = async () => {
   const currentTemperature = await getTemp();
@@ -19,6 +20,9 @@ const PinterPage = async () => {
       </div>
       <div>
         <PinterButtons></PinterButtons>
+      </div>
+      <div>
+        <PinterInfos></PinterInfos>
       </div>
     </>
   );
