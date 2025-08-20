@@ -2,12 +2,12 @@ import clsx from "clsx";
 import React from "react";
 
 interface Props {
+  pinterId: number;
   pinterName: string;
   pinterColour: string;
-  onClick: () => void;
 }
 
-const PinterCard = (props: Props) => {
+const PinterInfo = (props: Props) => {
   let backgroundColour = "";
   if (props.pinterColour.toLowerCase() == "blue") {
     backgroundColour = "bg-blue-500";
@@ -16,10 +16,10 @@ const PinterCard = (props: Props) => {
   } else if (props.pinterColour.toLowerCase() == "red") {
     backgroundColour = "bg-red-500";
   }
+
   return (
     <>
       <div
-        onClick={props.onClick}
         className={clsx(
           "flex flex-col justify-center items-center rounded-sm h-150 w-250 m-5 cursor-pointer",
           backgroundColour
@@ -31,4 +31,4 @@ const PinterCard = (props: Props) => {
   );
 };
 
-export default PinterCard;
+export default PinterInfo;
