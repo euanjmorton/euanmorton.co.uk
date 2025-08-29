@@ -1,9 +1,11 @@
 import clsx from "clsx";
 import React from "react";
+import { PinterStatus } from "../lib/types/enums";
 
 interface Props {
   pinterName: string;
   pinterColour: string;
+  pinterStatus: PinterStatus;
   onClick: () => void;
 }
 
@@ -26,6 +28,7 @@ const PinterCard = (props: Props) => {
         )}
       >
         <p>{props.pinterName}</p>
+        <p>{props.pinterStatus}</p>
       </div>
     </>
   );

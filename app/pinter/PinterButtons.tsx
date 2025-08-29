@@ -2,12 +2,15 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const createNewBrew = () => {};
-
 const viewBrews = () => {};
 
 const PinterButtons = () => {
   const router = useRouter();
+
+  const createNewBrew = () => {
+    router.push("/pinter/newbrew");
+  };
+
   return (
     <>
       <button className="btn btn-Primary" onClick={() => createNewBrew()}>

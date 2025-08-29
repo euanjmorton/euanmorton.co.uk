@@ -33,6 +33,11 @@ const SideBar = () => {
 
   const router = useRouter();
 
+  const navPinter = () => {
+    togleSidebar();
+    router.push("/pinter");
+  };
+
   return (
     <>
       <div
@@ -53,10 +58,7 @@ const SideBar = () => {
             <p>EuanMorton.co.uk</p>
           </div>
           <div className="pt-50">
-            <button
-              className="btn btn-Primary"
-              onClick={() => router.push("/pinter")}
-            >
+            <button className="btn btn-Primary" onClick={() => navPinter()}>
               Pinter
             </button>
           </div>

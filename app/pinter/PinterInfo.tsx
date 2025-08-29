@@ -1,10 +1,13 @@
 import clsx from "clsx";
 import React from "react";
+import { PinterStatus } from "@/app/lib/types/enums";
+import * as pinterInfo from "@/app/lib/pinterInfo";
 
 interface Props {
   pinterId: number;
   pinterName: string;
   pinterColour: string;
+  pinterStatus: PinterStatus;
 }
 
 const PinterInfo = (props: Props) => {
@@ -17,15 +20,40 @@ const PinterInfo = (props: Props) => {
     backgroundColour = "bg-red-500";
   }
 
+  console.log(pinterInfo);
+
+  let pinterStatus = "";
+  if (props.pinterStatus == PinterStatus.Ready) {
+    pinterStatus = "Ready";
+  } else if (props.pinterStatus == PinterStatus.Brewing) {
+    pinterStatus = "Brewing";
+  } else if (props.pinterStatus == PinterStatus.ColdCrashing) {
+    pinterStatus = "ColdCrashing";
+  } else if (props.pinterStatus == PinterStatus.Conditioning) {
+    pinterStatus = "Conditioning";
+  } else if (props.pinterStatus == PinterStatus.Tapping) {
+    pinterStatus = "Tapping";
+  }
+
   return (
     <>
       <div
         className={clsx(
-          "flex flex-col justify-center items-center rounded-sm h-150 w-250 m-5 cursor-pointer",
+          "flex flex-col justify-center items-center rounded-sm h-75 w-150 m-5 cursor-pointer",
           backgroundColour
         )}
       >
-        <p>{props.pinterName}</p>
+        <h2>{props.pinterName}</h2>
+      </div>
+      <div>
+        <p>graph view</p>
+        <p>Current Status: {pinterStatus}</p>
+        <p>Current Temperature:</p>
+        <p>Current ABV:</p>
+
+        <p>Next Stage </p>
+        <p>[conditioning]</p>
+        <p> in [x] days</p>
       </div>
     </>
   );

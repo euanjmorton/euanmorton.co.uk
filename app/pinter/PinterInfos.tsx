@@ -1,15 +1,11 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
 import { getPinters } from "../lib/pinterInfo";
+import { Pinter } from "@/app/lib/types/definitions";
 import PinterCard from "./PinterCard";
 import clsx from "clsx";
 import PinterInfo from "./PinterInfo";
-
-type Pinter = {
-  pinter_id: number;
-  pinter_name: string;
-  pinter_colour: string;
-};
+import Image from "next/image";
 
 const PinterInfos = () => {
   const [pinters, setPinters] = useState<Pinter[]>([]);
@@ -45,6 +41,7 @@ const PinterInfos = () => {
           pinter_id: pinter_id,
           pinter_name: pinters[i].pinter_name,
           pinter_colour: pinters[i].pinter_colour,
+          pinter_status: pinters[i].pinter_status,
         });
       }
     }
@@ -59,6 +56,7 @@ const PinterInfos = () => {
               key={pinter.pinter_id}
               pinterName={pinter.pinter_name}
               pinterColour={pinter.pinter_colour}
+              pinterStatus={pinter.pinter_status}
               onClick={() => togglePinterView(pinter.pinter_id)}
             ></PinterCard>
           ))}
@@ -66,7 +64,14 @@ const PinterInfos = () => {
       </div>
       <div className={clsx(infoWindow)}>
         <div onClick={() => togglePinterView(0)}>
-          <p>back</p>
+          <Image
+            id="backButton"
+            className={"cursor-pointer"}
+            src="/icons/arrow-sm-left.svg"
+            alt="pinter back button"
+            width="20"
+            height="20"
+          />
         </div>
         <div>
           {activePinter && (
@@ -74,6 +79,7 @@ const PinterInfos = () => {
               pinterId={activePinter.pinter_id}
               pinterName={activePinter.pinter_name}
               pinterColour={activePinter.pinter_colour}
+              pinterStatus={activePinter.pinter_status}
             ></PinterInfo>
           )}
         </div>
