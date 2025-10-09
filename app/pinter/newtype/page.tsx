@@ -1,6 +1,6 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { createStyle } from "@/app/pinter/newtype/api";
-import style from "./style.module.css";
+import style from "../style.module.css";
 import clsx from "clsx";
 
 const CreateNewTypePage = () => {
@@ -25,9 +25,9 @@ const CreateNewTypePage = () => {
           <p>Number of conditioning days:</p>
           <input type="number" name="condition_days"></input>
           <p>Recommended number of brewing days:</p>
-          <input type="number" name="rec_brew_days"></input>
+          <input type="number" name="recommended_brew_days"></input>
           <p>Recommended number of conditioning days:</p>
-          <input type="number" name="rec_condition_days"></input>
+          <input type="number" name="recommended_condition_days"></input>
           <p>Expected ABV:</p>
           <input type="number" step="0.1" name="abv"></input>
           <button className="btn btn-Primary" type="submit">

@@ -15,8 +15,8 @@ const FormSchema = z.object({
   style: z.string(),
   brew_days: z.coerce.number(),
   condition_days: z.coerce.number(),
-  rec_brew_days: z.coerce.number(),
-  rec_condition_days: z.coerce.number(),
+  recommended_brew_days: z.coerce.number(),
+  recommended_condition_days: z.coerce.number(),
   abv: z.coerce.number(),
 });
 
@@ -27,14 +27,14 @@ export const createStyle = async (formData: FormData) => {
     style: formData.get("style"),
     brew_days: formData.get("brew_days"),
     condition_days: formData.get("condition_days"),
-    rec_brew_days: formData.get("rec_brew_days"),
-    rec_condition_days: formData.get("rec_condition_days"),
+    recommended_brew_days: formData.get("recommended_brew_days"),
+    recommended_condition_days: formData.get("recommended_condition_days"),
     abv: formData.get("abv"),
   };
 
   const data = FormSchema.parse(rawFormData);
 
-  const [result] = await InsertQuery(
+  await InsertQuery(
     "INSERT INTO brew_styles (" +
       "drink_name," +
       "drink_style," +
@@ -56,9 +56,9 @@ export const createStyle = async (formData: FormData) => {
       ", " +
       data.condition_days +
       ", " +
-      data.rec_brew_days +
+      data.recommended_brew_days +
       ", " +
-      data.rec_condition_days +
+      data.recommended_condition_days +
       ", " +
       data.abv +
       ")"
