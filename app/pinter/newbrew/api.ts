@@ -16,7 +16,7 @@ const FormSchema = z.object({
   brew_days: z.coerce.number(),
   cold_crash_days: z.coerce.number(),
   condition_days: z.coerce.number(),
-  start_date: z.coerce.date(),
+  start_date: z.coerce.string(),
   ispindle_id: z.coerce.number(),
 });
 
@@ -28,12 +28,14 @@ export const startBrew = async (formData: FormData) => {
     cold_crash_days: formData.get("cold_crash_days"),
     condition_days: formData.get("condition_days"),
     start_date: formData.get("start_date"),
+    start_time: formData.get("start_time"),
     ispindle_id: formData.get("ispindle"),
   };
 
-  console.log("rawFormData,", rawFormData);
+  //console.log("rawFormData,", rawFormData);
+  rawFormData.start_date = rawFormData.start_date + "T" + rawFormData.start_time;
   const data = FormSchema.parse(rawFormData);
-  console.log(data);
+  //console.log(data);
 
   await InsertQuery(
     "INSERT INTO brews (" +

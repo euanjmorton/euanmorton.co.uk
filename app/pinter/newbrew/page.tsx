@@ -147,6 +147,9 @@ const CreateNewBrewPage = () => {
         <p>Start date:</p>
         <input type="date" id="start_date" name="start_date" required></input>
 
+        <p>Start time:</p>
+        <input type="time" id="start_time" name="start_time" required></input>
+
         <button className="btn btn-Primary" type="submit">
           Add Style
         </button>

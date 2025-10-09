@@ -24,7 +24,8 @@ export async function InsertQuery(queryString: string, params?: []) {
 export async function UpdatePinterStatus(status: PinterStatus, pinter: string) {
   try {
     const results = await pool.execute(
-      "UPDATE pinter SET status = " + status + " WHERE pinter_id = " + pinter
+      "UPDATE pinters SET pinter_status = ? WHERE pinter_id = ?",
+      [status, pinter]
     );
     return results as RowDataPacket[];
   } catch (e) {
