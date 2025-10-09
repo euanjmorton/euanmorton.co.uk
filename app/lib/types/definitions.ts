@@ -21,10 +21,10 @@ export type BrewType = {
 export type Brew = {
   pinter: number,
   brew_type: string,
-  brew_days: number,
+  brewing_days: number,
   cold_crash_days: number,
-  condition_days: number,
-  start_date: string,
+  conditioning_days: number,
+  brew_startdate: string,
   start_time: string,
   ispindle_id: number
 };

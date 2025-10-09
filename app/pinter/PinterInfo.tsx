@@ -8,6 +8,7 @@ interface Props {
   pinterName: string;
   pinterColour: string;
   pinterStatus: PinterStatus;
+  startDate?: string;
   brewingDays?: number;
   coldCrashDays?: number;
   conditionDays?: number;
@@ -23,26 +24,61 @@ const PinterInfo = (props: Props) => {
     backgroundColour = "bg-red-500";
   }
 
-  console.log(pinterInfo);
-
   let pinterStatus = "";
   let nextStage = "";
+  let nextStageCountdown = 0;
+  let daysElapsed = 0;
+
+  if (props.startDate) {
+    const brewStart = new Date(props.startDate);
+    const currentDate = new Date();
+
+    let timeDiff = currentDate.getTime() - brewStart.getTime();
+    daysElapsed = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  }
 
   if (props.pinterStatus == PinterStatus.Ready) {
     pinterStatus = "Ready";
   } else if (props.pinterStatus == PinterStatus.Brewing) {
     pinterStatus = "Brewing";
+
     if (props.coldCrashDays != 0) {
       nextStage = "Cold Crashing";
     } else {
       nextStage = "Conditioning";
     }
+
+    if (props.brewingDays) {
+      if (props.brewingDays > daysElapsed) {
+        nextStageCountdown = props.brewingDays - daysElapsed;
+      }
+    }
   } else if (props.pinterStatus == PinterStatus.ColdCrashing) {
     pinterStatus = "Cold Crashing";
     nextStage = "Conditioning";
+
+    if (props.coldCrashDays && props.brewingDays) {
+      if (props.coldCrashDays + props.brewingDays > daysElapsed) {
+        nextStageCountdown =
+          props.brewingDays + props.brewingDays - daysElapsed;
+      }
+    }
   } else if (props.pinterStatus == PinterStatus.Conditioning) {
     pinterStatus = "Conditioning";
     nextStage = "Tapping";
+
+    if (props.coldCrashDays && props.brewingDays && props.conditionDays) {
+      if (
+        props.coldCrashDays + props.brewingDays + props.conditionDays >
+        daysElapsed
+      ) {
+        nextStageCountdown =
+          props.brewingDays +
+          props.brewingDays +
+          props.conditionDays -
+          daysElapsed;
+      }
+    }
   } else if (props.pinterStatus == PinterStatus.Tapping) {
     pinterStatus = "Tapping";
     nextStage = "Cleaning";
@@ -66,7 +102,7 @@ const PinterInfo = (props: Props) => {
 
         <p>Next Stage:</p>
         <p>{nextStage}</p>
-        <p> in [x] days</p>
+        <p> in {nextStageCountdown} days</p>
       </div>
     </>
   );

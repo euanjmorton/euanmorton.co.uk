@@ -55,12 +55,12 @@ const PinterInfos = () => {
         if (activeBrews[i].pinter == pinter_id) {
           setActiveBrew({
             pinter: pinter_id,
-            brew_days: activeBrews[i].brew_days,
+            brewing_days: activeBrews[i].brewing_days,
             cold_crash_days: activeBrews[i].cold_crash_days,
-            condition_days: activeBrews[i].condition_days,
+            conditioning_days: activeBrews[i].conditioning_days,
             brew_type: "",
             ispindle_id: activeBrews[i].ispindle_id,
-            start_date: activeBrews[i].start_date,
+            brew_startdate: activeBrews[i].brew_startdate,
             start_time: activeBrews[i].start_time,
           });
         }
@@ -101,9 +101,10 @@ const PinterInfos = () => {
               pinterName={activePinter.pinter_name}
               pinterColour={activePinter.pinter_colour}
               pinterStatus={activePinter.pinter_status}
-              brewingDays={activeBrew?.brew_days}
+              startDate={activeBrew?.brew_startdate}
+              brewingDays={activeBrew?.brewing_days}
               coldCrashDays={activeBrew?.cold_crash_days}
-              conditionDays={activeBrew?.condition_days}
+              conditionDays={activeBrew?.conditioning_days}
             ></PinterInfo>
           )}
         </div>
