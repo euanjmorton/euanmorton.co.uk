@@ -42,7 +42,8 @@ export const createStyle = async (formData: FormData) => {
       "conditioning_days," +
       "recommended_brewing_days," +
       "recommended_conditioning_days," +
-      "abv) " +
+      "abv," +
+      "active)" +
       "VALUES (" +
       "'" +
       data.name +
@@ -61,6 +62,8 @@ export const createStyle = async (formData: FormData) => {
       data.recommended_condition_days +
       ", " +
       data.abv +
+      ", " +
+      true +
       ")"
   );
 

@@ -8,6 +8,9 @@ interface Props {
   pinterName: string;
   pinterColour: string;
   pinterStatus: PinterStatus;
+  brewingDays?: number;
+  coldCrashDays?: number;
+  conditionDays?: number;
 }
 
 const PinterInfo = (props: Props) => {
@@ -23,16 +26,26 @@ const PinterInfo = (props: Props) => {
   console.log(pinterInfo);
 
   let pinterStatus = "";
+  let nextStage = "";
+
   if (props.pinterStatus == PinterStatus.Ready) {
     pinterStatus = "Ready";
   } else if (props.pinterStatus == PinterStatus.Brewing) {
     pinterStatus = "Brewing";
+    if (props.coldCrashDays != 0) {
+      nextStage = "Cold Crashing";
+    } else {
+      nextStage = "Conditioning";
+    }
   } else if (props.pinterStatus == PinterStatus.ColdCrashing) {
-    pinterStatus = "ColdCrashing";
+    pinterStatus = "Cold Crashing";
+    nextStage = "Conditioning";
   } else if (props.pinterStatus == PinterStatus.Conditioning) {
     pinterStatus = "Conditioning";
+    nextStage = "Tapping";
   } else if (props.pinterStatus == PinterStatus.Tapping) {
     pinterStatus = "Tapping";
+    nextStage = "Cleaning";
   }
 
   return (
@@ -51,8 +64,8 @@ const PinterInfo = (props: Props) => {
         <p>Current Temperature:</p>
         <p>Current ABV:</p>
 
-        <p>Next Stage </p>
-        <p>[conditioning]</p>
+        <p>Next Stage:</p>
+        <p>{nextStage}</p>
         <p> in [x] days</p>
       </div>
     </>

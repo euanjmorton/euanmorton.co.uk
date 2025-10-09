@@ -18,6 +18,17 @@ export type BrewType = {
   abv: number,
 };
 
+export type Brew = {
+  pinter: number,
+  brew_type: string,
+  brew_days: number,
+  cold_crash_days: number,
+  condition_days: number,
+  start_date: string,
+  start_time: string,
+  ispindle_id: number
+};
+
 export type Spindle = {
   ispindle_id: number;
   ispindle_colour: string;
