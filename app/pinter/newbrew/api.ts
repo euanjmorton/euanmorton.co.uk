@@ -45,7 +45,8 @@ export const startBrew = async (formData: FormData) => {
       "brewing_days," +
       "cold_crash_days," +
       "conditioning_days," +
-      "ispindle_id) " +
+      "ispindle_id," +
+      "active)" +
       "VALUES (" +
       "'" +
       data.pinter +
@@ -66,6 +67,8 @@ export const startBrew = async (formData: FormData) => {
       data.condition_days +
       ", " +
       data.ispindle_id +
+      ", " +
+      true +
       ")"
   );
 
