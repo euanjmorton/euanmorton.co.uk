@@ -1,7 +1,7 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import { getPinters } from "../lib/pinterInfo";
-import { Pinter } from "@/app/lib/types/definitions";
+import { getActiveBrews, getPinters } from "../lib/pinterInfo";
+import { Brew, Pinter } from "@/app/lib/types/definitions";
 import PinterCard from "./PinterCard";
 import clsx from "clsx";
 import PinterInfo from "./PinterInfo";
@@ -10,12 +10,18 @@ import Image from "next/image";
 const PinterInfos = () => {
   const [pinters, setPinters] = useState<Pinter[]>([]);
   const [activePinter, setActivePinter] = useState<Pinter>();
+  const [activeBrews, setActiveBrews] = useState<Brew[]>([]);
+  const [activeBrew, setActiveBrew] = useState<Brew>();
   const [pinterWindow, setPinterWindow] = useState("list");
 
   useEffect(() => {
     getPinters().then((res) => {
       console.log("hello pinter", res);
       setPinters(res as Pinter[]);
+    });
+    getActiveBrews().then((res) => {
+      console.log("hello BREW", res);
+      setActiveBrews(res as Brew[]);
     });
   }, []);
 
@@ -43,6 +49,21 @@ const PinterInfos = () => {
           pinter_colour: pinters[i].pinter_colour,
           pinter_status: pinters[i].pinter_status,
         });
+      }
+
+      for (let i = 0; i < activeBrews.length; i++) {
+        if (activeBrews[i].pinter == pinter_id) {
+          setActiveBrew({
+            pinter: pinter_id,
+            brewing_days: activeBrews[i].brewing_days,
+            cold_crash_days: activeBrews[i].cold_crash_days,
+            conditioning_days: activeBrews[i].conditioning_days,
+            brew_type: "",
+            ispindle_id: activeBrews[i].ispindle_id,
+            brew_startdate: activeBrews[i].brew_startdate,
+            start_time: activeBrews[i].start_time,
+          });
+        }
       }
     }
   }
@@ -80,6 +101,10 @@ const PinterInfos = () => {
               pinterName={activePinter.pinter_name}
               pinterColour={activePinter.pinter_colour}
               pinterStatus={activePinter.pinter_status}
+              startDate={activeBrew?.brew_startdate}
+              brewingDays={activeBrew?.brewing_days}
+              coldCrashDays={activeBrew?.cold_crash_days}
+              conditionDays={activeBrew?.conditioning_days}
             ></PinterInfo>
           )}
         </div>

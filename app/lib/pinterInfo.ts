@@ -7,6 +7,12 @@ export const getPinters = async () => {
   return pinters;
 };
 
+export const getActiveBrews = async () => {
+  const [active_brews] = await SelectQuery("SELECT * FROM brews WHERE active = 1");
+
+  return active_brews;
+};
+
 export const getBrewTypes = async () => {
   const [brew_styles] = await SelectQuery("SELECT * FROM brew_styles");
 
