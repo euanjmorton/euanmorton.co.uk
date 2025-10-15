@@ -36,14 +36,13 @@ export const createStyle = async (formData: FormData) => {
 
   await InsertQuery(
     "INSERT INTO brew_styles (" +
-      "drink_name," +
-      "drink_style," +
-      "brewing_days," +
-      "conditioning_days," +
-      "recommended_brewing_days," +
-      "recommended_conditioning_days," +
-      "abv," +
-      "active)" +
+      "brew_name," +
+      "style," +
+      "brew_days," +
+      "condition_days," +
+      "recommended_brew_days," +
+      "recommended_condition_days," +
+      "abv)" +
       "VALUES (" +
       "'" +
       data.name +
@@ -62,8 +61,6 @@ export const createStyle = async (formData: FormData) => {
       data.recommended_condition_days +
       ", " +
       data.abv +
-      ", " +
-      true +
       ")"
   );
 
