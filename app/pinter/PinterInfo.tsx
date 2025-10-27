@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { PinterStatus } from "@/app/lib/types/enums";
 import * as pinterInfo from "@/app/lib/pinterInfo";
+import TemperatureGraph from "./TemperatureGraph";
 
 interface Props {
   pinterId: number;
@@ -95,7 +96,10 @@ const PinterInfo = (props: Props) => {
         <h2>{props.pinterName}</h2>
       </div>
       <div>
-        <p>graph view</p>
+        <TemperatureGraph
+          startDate={props.startDate}
+          brewingDays={props.brewingDays}
+        ></TemperatureGraph>
         <p>Current Status: {pinterStatus}</p>
         <p>Current Temperature:</p>
         <p>Current ABV:</p>
