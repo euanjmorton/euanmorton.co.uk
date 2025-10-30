@@ -12,6 +12,7 @@ import {
   Legend,
   ChartOptions,
   ChartData,
+  TimeScale,
 } from "chart.js";
 
 import { Line } from "react-chartjs-2";
@@ -30,8 +31,10 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  TimeScale
 );
+import "chartjs-adapter-moment";
 
 const options: ChartOptions<"line"> = {
   responsive: true,
@@ -41,23 +44,47 @@ const options: ChartOptions<"line"> = {
     },
     title: {
       display: true,
-      text: "Monthly Sales Data",
+      text: "Temperatures",
+    },
+  },
+  scales: {
+    x: {
+      type: "time",
+      time: {
+        unit: "day",
+        tooltipFormat: "DD MMM YYYY HH:mm",
+      },
+      title: {
+        display: true,
+        text: "Time",
+      },
+    },
+    y: {
+      ticks: {
+        // forces step size to be 50 units
+        stepSize: 0.5,
+      },
+      suggestedMin: 16,
+      suggestedMax: 20,
+
+      display: true,
+      title: {
+        display: true,
+        text: "Temperatire °C",
+      },
     },
   },
 };
 
 const TemperatureGraph = (props: Props) => {
-  const [data2, setData2] = useState<ChartData<"line">>({
-    labels: [],
-    datasets: [],
-  });
+  const [graphTemperatureData, setgraphTemperatureData] =
+    useState<ChartData<"line">>();
 
   useEffect(() => {
     if (props.startDate && props.brewingDays) {
       getGraphTemperatureData(props.startDate, props.brewingDays).then(
         (res) => {
           const tempDataResult = {
-            //labels: ["January", "February", "March", "April", "May"],
             labels: res.map((row: { date_time: string }) => row.date_time),
             datasets: [
               {
@@ -70,7 +97,7 @@ const TemperatureGraph = (props: Props) => {
             ],
           };
 
-          setData2(tempDataResult);
+          setgraphTemperatureData(tempDataResult);
         }
       );
     }
@@ -78,7 +105,11 @@ const TemperatureGraph = (props: Props) => {
 
   return (
     <>
-      <Line data={data2} options={options} />;
+      {graphTemperatureData ? (
+        <Line data={graphTemperatureData} options={options} />
+      ) : (
+        <>Loading chart...</>
+      )}
     </>
   );
 };
