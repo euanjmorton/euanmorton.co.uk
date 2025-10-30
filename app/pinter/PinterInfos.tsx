@@ -94,7 +94,7 @@ const PinterInfos = () => {
             height="20"
           />
         </div>
-        <div>
+        <div className={clsx("w-800")}>
           {activePinter && (
             <PinterInfo
               pinterId={activePinter.pinter_id}
