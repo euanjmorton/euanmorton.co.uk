@@ -1,8 +1,28 @@
-import pool from "@/app/lib/db";
-import { RowDataPacket } from "mysql2/promise";
+"use server";
+
+//import pool from "@/app/lib/db";
+import { QueryResult, RowDataPacket } from "mysql2/promise";
 import { PinterStatus } from "./types/enums";
 
-export async function SelectQuery<T extends RowDataPacket>(
+import { PrismaClient } from "@/generated/prisma/client";
+
+const prisma = new PrismaClient();
+export async function SelectQueryBrews(queryString: string, params?: []) {
+  const allUsers = await prisma.brew_styles.findMany();
+  console.log(allUsers);
+  return allUsers;
+}
+
+export async function SelectQuery(queryString: string, params?: []) {
+  try {
+    const results = await pool.execute(queryString, params);
+    return results as QueryResult[];
+  } catch (e) {
+    console.log("Cant connect", e);
+    return [];
+  }
+}
+export async function SelectQuery2<T extends RowDataPacket>(
   queryString: string,
   params?: []
 ) {
