@@ -1,22 +1,58 @@
-"use server";
-
 //import pool from "@/app/lib/db";
 import { QueryResult, RowDataPacket } from "mysql2/promise";
 import { PinterStatus } from "./types/enums";
 
-import { PrismaClient } from "@/generated/prisma/client";
+import { PrismaClient } from "@/generated/prisma/client/client";
+//("@/generated/prisma/client");
 
 const prisma = new PrismaClient();
+
 export async function SelectQueryBrews(queryString: string, params?: []) {
-  const allUsers = await prisma.brew_styles.findMany();
+  const allUsers = await prisma.brew_styles.findFirst();
   console.log(allUsers);
   return allUsers;
 }
 
+//let qS = "SELECT * FROM temperatures WHERE Date_Time >= '" + startDate + "' " + "AND Date_Time <= '" + endDate + "';"
+
+export async function SelectTemps(startDate: string, endDate: string) {
+  const temps = await prisma.temperatures.findMany({
+    where: {
+      Date_Time: {
+        gte: startDate, // >=
+        lte: endDate, // <=
+      },
+    },
+  });
+  console.log(temps);
+  return temps;
+}
+
+export async function GetUser(email: string, pwHash: string) {
+  const user = await prisma.users.findFirst({
+    where: {
+      email: email,
+      password: pwHash,
+    },
+  });
+
+  if (!user) return null;
+
+  const user2 = {
+    id: user.id.toString(),
+    name: user.name,
+    email: user.email,
+    password: user.password,
+  };
+  console.log(user);
+  return user2;
+}
+
 export async function SelectQuery(queryString: string, params?: []) {
   try {
-    const results = await pool.execute(queryString, params);
-    return results as QueryResult[];
+    return [];
+    //const results = await pool.execute(queryString, params);
+    //return results as QueryResult[];
   } catch (e) {
     console.log("Cant connect", e);
     return [];
@@ -27,8 +63,9 @@ export async function SelectQuery2<T extends RowDataPacket>(
   params?: []
 ) {
   try {
-    const results = await pool.execute(queryString, params);
-    return results as RowDataPacket[];
+    return [];
+    //const results = await pool.execute(queryString, params);
+    //return results as RowDataPacket[];
   } catch (e) {
     console.log("Cant connect", e);
     return [];
@@ -37,15 +74,15 @@ export async function SelectQuery2<T extends RowDataPacket>(
 
 export async function InsertQuery(queryString: string, params?: []) {
   try {
-    const results = await pool.execute(queryString, params);
-    return results as RowDataPacket[];
+    return []; //const results = await pool.execute(queryString, params);
+    //return results as RowDataPacket[];
   } catch (e) {
     console.log("Cant connect", e);
     return [];
   }
 }
 export async function UpdatePinterStatus(status: PinterStatus, pinter: string) {
-  try {
+  /*try {
     const results = await pool.execute(
       "UPDATE pinters SET pinter_status = ? WHERE pinter_id = ?",
       [status, pinter]
@@ -54,5 +91,5 @@ export async function UpdatePinterStatus(status: PinterStatus, pinter: string) {
   } catch (e) {
     console.log("Cant connect", e);
     return [];
-  }
+  }*/
 }

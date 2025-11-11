@@ -6,7 +6,7 @@ import Credentials from "next-auth/providers/credentials"
 
 //import { saltAndHashPassword } from "@/utils/password"
 //import { getUserFromDb } from "@/utils/db"
-import { SelectQuery } from "./app/lib/queryUtils"
+import { GetUser, SelectQuery } from "./app/lib/queryUtils"
 import { object, string } from "zod"
 
 interface UserFromDB {
@@ -35,7 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     //const email = credentials.email;
 
                     const dbuser = await getUserFromDb(email, pwHash)
-                    const newuser = (dbuser as UserFromDB[])[0];
+                    const newuser = (dbuser as UserFromDB);
 
 
                     if (!dbuser) {
@@ -58,15 +58,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     ],
 })
 
-async function getUserFromDb(email: any, pwHash: any){
-    const qs = "SELECT * FROM users WHERE email = '" + email + "' AND password = '" + pwHash + "';"
-    
-    //const [user] = await SelectQuery(
-      ///  qs
-        //);
+async function getUserFromDb(email: string, pwHash: string){
+    let user = GetUser(email, pwHash);
 
-    return null;
+    return user;
 }
+
 
 
 

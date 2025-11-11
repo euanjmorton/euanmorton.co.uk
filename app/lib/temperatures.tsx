@@ -5,5 +5,9 @@ export const getTemp = async () => {
     "SELECT * FROM temperatures ORDER BY Date_Time desc LIMIT 1"
   );
 
-  return Temperatures[0].Temperature;
+  try {
+    return Temperatures[0].Temperature;
+  } catch (e) {
+    return "error getting temps";
+  }
 };
