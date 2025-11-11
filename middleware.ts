@@ -1,7 +1,5 @@
-export const runtime = "nodejs";
-export {auth as middleware} from "@/auth"
-
-export const config = {
-  matcher: ["/nome/:path"],
-  runtime: 'nodejs' // Required to not use the Edge runtime... for some reason. TODO: figure out why
-}
+import NextAuth from "next-auth"
+import authConfig from "./auth.config"
+ 
+export const { auth: middleware } = NextAuth(authConfig)
+//Edge changes explanation: https://authjs.dev/guides/edge-compatibility#middleware 

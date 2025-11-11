@@ -1,6 +1,13 @@
+import { auth } from "@/auth";
 import LoginButton from "./components/login/LoginButton";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
+  if (!session) {
+    return <div>Not authenticated</div>;
+  }
+
   return (
     <>
       <div>
