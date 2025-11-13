@@ -1,13 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import BurgerButton from "./BurgerButton";
 import style from "./style.module.css";
 import { clsx } from "clsx";
+import { getUser } from "@/app/lib/serverInfoTest";
+
+interface Props {
+  userName: string;
+}
 
 const SideBar = () => {
   const [sideBarVisibility, setSideBarVisisbility] = useState(false);
+  const [user, setUser] = useState("");
 
+  useEffect(() => {
+    getUser().then((res) => {
+      setUser(res);
+    });
+  }, []);
   /*useEffect(() => {
     //code to run
     console.log("sidebar thing ", sideBarVisibility);
@@ -57,6 +68,7 @@ const SideBar = () => {
           <div className="pt-4">
             <p>EuanMorton.co.uk</p>
           </div>
+          <div>{user && user}</div>
           <div className="pt-50">
             <button className="btn btn-Primary" onClick={() => navPinter()}>
               Pinter

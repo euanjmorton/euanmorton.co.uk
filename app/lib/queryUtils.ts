@@ -1,3 +1,4 @@
+"use server";
 //import pool from "@/app/lib/db";
 import { QueryResult, RowDataPacket } from "mysql2/promise";
 import { PinterStatus } from "./types/enums";
@@ -31,12 +32,19 @@ export async function SelectTemps(startDate: string, endDate: string) {
 export async function GetUser(email: string, pwHash: string) {
   const user = await prisma.users.findFirst({
     where: {
-      email: email,
-      password: pwHash,
+      email: email
     },
   });
 
   if (!user) return null;
+  if (!user.password) return null;
+
+  const dbPw = user.password.split(":");
+
+  if(dbPw[1] == pwHash){
+    console.log(user);
+    return user;
+  }
 
   const user2 = {
     id: user.id.toString(),
