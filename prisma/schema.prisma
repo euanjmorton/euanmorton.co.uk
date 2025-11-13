@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client"
+  //output   = "./client"
+
+  output   = "../generated/prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model brew_styles {
+  brew_type_id               Int     @id @default(autoincrement())
+  brew_name                  String? @db.VarChar(50)
+  style                      String? @db.VarChar(50)
+  brew_days                  Int?
+  condition_days             Int?
+  recommended_brew_days      Int?
+  recommended_condition_days Int?
+  abv                        String? @db.VarChar(50)
+}
+
+model brews {
+  brew_id           Int       @id @default(autoincrement())
+  pinter            Int?
+  brew_type         Int?
+  brew_startdate    DateTime? @db.DateTime(0)
+  brewing_days      Int?
+  cold_crash_days   Int?
+  conditioning_days Int?
+  notes             String?   @db.VarChar(255)
+  rating            Int?
+  ispindle_id       Int?
+  active            Boolean?  @default(false)
+}
+
+model ispindle_information {
+  ispindle_id Int       @id
+  temperature Float?    @db.Float
+  gravity     Float?    @db.Float
+  date_time   DateTime? @db.DateTime(0)
+}
+
+model ispindles {
+  ispindle_id Int               @id @default(autoincrement())
+  colour      String?           @db.VarChar(50)
+  status      ispindles_status?
+  ip          String?           @db.VarChar(50)
+}
+
+model pinters {
+  pinter_id     Int                   @id @default(autoincrement())
+  pinter_name   String?               @db.VarChar(50)
+  pinter_colour String?               @db.VarChar(50)
+  pinter_status pinters_pinter_status @default(ready)
+}
+
+model temperatures {
+  id          Int       @id @default(autoincrement())
+  Temperature String?   @db.VarChar(100)
+  Date_Time   DateTime? @db.DateTime(0)
+
+}
+
+model users {
+  id       Int     @id @default(autoincrement())
+  name     String? @db.VarChar(100)
+  email    String? @db.VarChar(100)
+  password String? @db.VarChar(100)
+}
+
+enum ispindles_status {
+  ready
+  in_use
+}
+
+enum pinters_pinter_status {
+  ready
+  brewing
+  cold_crashing
+  conditioning
+  tapping
+}

@@ -2,8 +2,15 @@ import React, { Suspense } from "react";
 import { getTemp } from "@/app/lib/temperatures";
 import PinterButtons from "./PinterButtons";
 import PinterInfos from "./PinterInfos";
+import { auth } from "@/auth";
 
 const PinterPage = async () => {
+  const session = await auth();
+
+  if (!session) {
+    return <div>Not authenticated</div>;
+  }
+
   const currentTemperature = await getTemp();
 
   return (

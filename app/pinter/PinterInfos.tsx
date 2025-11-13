@@ -58,10 +58,13 @@ const PinterInfos = () => {
             brewing_days: activeBrews[i].brewing_days,
             cold_crash_days: activeBrews[i].cold_crash_days,
             conditioning_days: activeBrews[i].conditioning_days,
-            brew_type: "",
+            brew_type: 0,
             ispindle_id: activeBrews[i].ispindle_id,
             brew_startdate: activeBrews[i].brew_startdate,
-            start_time: activeBrews[i].start_time,
+            //start_time: activeBrews[i].start_time,
+            active: activeBrews[i].active,
+            notes: activeBrews[i].notes,
+            rating: activeBrews[i].rating,
           });
         }
       }
@@ -101,7 +104,7 @@ const PinterInfos = () => {
               pinterName={activePinter.pinter_name}
               pinterColour={activePinter.pinter_colour}
               pinterStatus={activePinter.pinter_status}
-              startDate={activeBrew?.brew_startdate}
+              //startDate={activeBrew?.brew_startdate}
               brewingDays={activeBrew?.brewing_days}
               coldCrashDays={activeBrew?.cold_crash_days}
               conditionDays={activeBrew?.conditioning_days}

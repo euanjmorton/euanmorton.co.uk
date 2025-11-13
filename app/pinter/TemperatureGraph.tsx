@@ -61,7 +61,6 @@ const options: ChartOptions<"line"> = {
     },
     y: {
       ticks: {
-        // forces step size to be 50 units
         stepSize: 0.5,
       },
       suggestedMin: 16,
@@ -82,7 +81,7 @@ const TemperatureGraph = (props: Props) => {
 
   useEffect(() => {
     if (props.startDate && props.brewingDays) {
-      getGraphTemperatureData(props.startDate, props.brewingDays).then(
+      /*getGraphTemperatureData(props.startDate, props.brewingDays).then(
         (res) => {
           const tempDataResult = {
             labels: res.map((row: { date_time: string }) => row.date_time),
@@ -99,7 +98,7 @@ const TemperatureGraph = (props: Props) => {
 
           setgraphTemperatureData(tempDataResult);
         }
-      );
+      );*/
     }
   }, [props.startDate, props.brewingDays]);
 
