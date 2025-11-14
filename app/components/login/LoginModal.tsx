@@ -4,6 +4,7 @@ import React, { useState } from "react";
 interface Props {
   isOpen: boolean;
   onClose: any;
+  pageRedirect: string;
 }
 
 const LoginModal = (props: Props) => {
@@ -48,17 +49,17 @@ const LoginModal = (props: Props) => {
               await signIn("credentials", {
                 email: formData.get("email") as string,
                 password: formData.get("password") as string,
-                redirect: false,
+                redirect: true,
+                callbackUrl: props.pageRedirect,
               });
             }}
           >
             <p className="text-black">Email:</p>
-            <input name="email" type="email" value="test@email.com"></input>
+            <input name="email" type="email"></input>
             <p className="text-black">Password:</p>
             <input
               name="password"
               type="password"
-              value="p4ssword"
               onChange={(e) => setEmail(e.target.value)}
             ></input>
             <button className="btn btn-Primary text-black" type="submit">

@@ -1,0 +1,7 @@
+.pinter-icon{
+	background-image: url("../../images/pinterIcon.png");
+	background-size: contain;
+  	background-repeat: no-repeat;
+	background-size: 80%;
+  	background-position: center;
+}
