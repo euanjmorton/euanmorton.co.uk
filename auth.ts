@@ -1,18 +1,13 @@
 import NextAuth from "next-auth"
 
-import authConfig from "./auth.config"
-
 import { PrismaClient } from "@/generated/prisma/client/client";
 //import { PrismaClient } from "@prisma/client"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 
 import Credentials from "next-auth/providers/credentials"
 
-
-//import { saltAndHashPassword } from "@/utils/password"
-//import { getUserFromDb } from "@/utils/db"
 import { GetUser, SelectQuery } from "./app/lib/queryUtils"
-import { object, string } from "zod"
+import z, { object, string, ZodError } from "zod"
 
 interface UserFromDB {
   id: string;
@@ -35,10 +30,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 password: {},
             },
             authorize: async (credentials) => {
-                try{
+                //try{
                     let user = null
 
-                    const {email, password} = await signInSchema.parseAsync(credentials);
+                    //const {email, password} = await signInSchema.parseAsync(credentials);
+
+                    let email = "";
+                    let password = "";
+
+                    if(credentials.email){
+                        email = credentials.email.toString();
+                    }
+                    if(credentials.password){
+                        password = credentials.password.toString();
+                    }
 
                     //TODO encrypt/hash pw
                     const { salt, hash } = hashPassword(password);
@@ -54,6 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
 
                     if (!dbuser) {
+                        console.error("throw new error");
                         throw new Error("Invalid credentials.")
                     }
 
@@ -64,10 +70,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     }
     
                     return user;
-                }
-                catch(e){
+                /*}
+                catch(error){
+                    if (error instanceof Error) {
+                        console.error("error message ", error.message);
+
+                        throw new Error(error.message)
+                        //return new Error(error.message);
+                    }
+
+                    console.log('erorrr:', error);
+                    if (error instanceof ZodError) {
+                        console.log('erorrr:ZOD');
+                        const thing = z.treeifyError(error)
+                        const thing2 = JSON.stringify(thing);
+                        throw new Error(thing2);
+                    }
+                    
                     return null;
-                }
+                }*/
             }
         })
     ],
