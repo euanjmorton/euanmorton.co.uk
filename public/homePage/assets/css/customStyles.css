@@ -5,3 +5,7 @@
 	background-size: 80%;
   	background-position: center;
 }
+
+.hidden{
+	display: none;
+}
