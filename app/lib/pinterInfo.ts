@@ -1,7 +1,6 @@
 "use server";
 import moment from "moment";
 import { SelectQuery, SelectTemps } from "./queryUtils";
-import { RowDataPacket } from "mysql2";
 import { PrismaClient } from "@/generated/prisma/client/client";
 
 const prisma = new PrismaClient();
@@ -50,8 +49,8 @@ export const getGraphTemperatureData = async (startDate: string, brewingDays: nu
   //hardcoded endate for testing:
   endDate = '2025-10-22 22:00:00';
 
-  let qS = "SELECT * FROM temperatures WHERE Date_Time >= '" + startDate + "' " +
-    "AND Date_Time <= '" + endDate + "';"
+  /*let qS = "SELECT * FROM temperatures WHERE Date_Time >= '" + startDate + "' " +
+    "AND Date_Time <= '" + endDate + "';"*/
   
   //const [results] = await SelectQuery<TemperatureRow>(qS);
   const [results] = await SelectTemps(startDate, endDate);

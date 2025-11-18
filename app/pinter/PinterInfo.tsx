@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React from "react";
 import { PinterStatus } from "@/app/lib/types/enums";
-import * as pinterInfo from "@/app/lib/pinterInfo";
 import TemperatureGraph from "./TemperatureGraph";
 
 interface Props {
@@ -34,7 +33,7 @@ const PinterInfo = (props: Props) => {
     const brewStart = new Date(props.startDate);
     const currentDate = new Date();
 
-    let timeDiff = currentDate.getTime() - brewStart.getTime();
+    const timeDiff = currentDate.getTime() - brewStart.getTime();
     daysElapsed = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   }
 

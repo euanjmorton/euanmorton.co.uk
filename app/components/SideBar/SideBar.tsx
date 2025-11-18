@@ -6,10 +6,6 @@ import style from "./style.module.css";
 import { clsx } from "clsx";
 import { getUser } from "@/app/lib/serverInfoTest";
 
-interface Props {
-  userName: string;
-}
-
 const SideBar = () => {
   const [sideBarVisibility, setSideBarVisisbility] = useState(false);
   const [user, setUser] = useState("");

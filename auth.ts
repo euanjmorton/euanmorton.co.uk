@@ -6,7 +6,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 
 import Credentials from "next-auth/providers/credentials"
 
-import { GetUser, SelectQuery } from "./app/lib/queryUtils"
+import { GetUser } from "./app/lib/queryUtils"
 import z, { object, string, ZodError } from "zod"
 
 interface UserFromDB {
