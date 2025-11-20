@@ -1,7 +1,6 @@
 "use server";
 
 import { signIn } from "auth";
-import z, { object, string } from "zod";
 import { signInSchema } from "./signInSchema";
 
 export async function loginAction(formData: FormData) {

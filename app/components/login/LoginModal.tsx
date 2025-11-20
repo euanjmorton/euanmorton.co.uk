@@ -2,7 +2,6 @@
 import { loginAction } from "app/lib/login/actions";
 
 //@/app/lib/login/actions";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -15,7 +14,7 @@ interface Props {
 const LoginModal = (props: Props) => {
   if (!props.isOpen) return null;
 
-  const [email, setEmail] = useState("");
+  //const [email, setEmail] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
 

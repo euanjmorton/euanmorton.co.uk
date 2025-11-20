@@ -18,7 +18,11 @@ const LoginButton = () => {
       <button className="btn btn-Primary" onClick={() => handleOpen()}>
         Sign in
       </button>
-      <LoginModal isOpen={loginFormShow} onClose={handleClose}></LoginModal>
+      <LoginModal
+        isOpen={loginFormShow}
+        onClose={handleClose}
+        pageRedirect={""}
+      ></LoginModal>
     </>
   );
 };
