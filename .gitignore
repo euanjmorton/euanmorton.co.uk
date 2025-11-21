@@ -6,3 +6,27 @@ node_modules/
 .env-pi-config
 
 .env
+
+documentation/Server Host setup.txt
+
+documentation/Steps For Database creation.txt
+
+/generated/prisma
+
+/generated/prisma
+
+prisma/client/
+
+prisma/migrations/0_init/migration.sql
+
+documentation/Updating Prisma Schema.txt
+
+.DS_Store
+
+.vscode/launch.json
+
+.env.local
+
+.env outside
+
+npm
