@@ -3,7 +3,7 @@
 import { signIn } from "auth";
 import { signInSchema } from "./signInSchema";
 
-export async function loginAction(formData: FormData) {
+export async function loginAction(formData: FormData, pageRedirect: string) {
     const form_email = formData.get("email");
     const form_password = formData.get("password");
 
@@ -34,7 +34,7 @@ export async function loginAction(formData: FormData) {
         }
 
         // valid – allow redirect
-        return { success: true, url: result.url };
+        return { success: true, url: pageRedirect };
 
     }
     catch(error: any){

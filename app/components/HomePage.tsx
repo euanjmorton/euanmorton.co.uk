@@ -2,8 +2,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import LoginModal from "./login/LoginModal";
 import Tooltip from "./Tooltip";
+import { redirect } from "next/navigation";
+import { Session } from "next-auth";
 
-const HomePage = () => {
+interface Props {
+  session: Session | null;
+}
+
+const HomePage = (props: Props) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipPos, setTooltip] = useState([0, 0]);
   const [tooltipText, setTooltipText] = useState("");
@@ -49,7 +55,11 @@ const HomePage = () => {
             clearInterval(checkButton);
 
             pinterButton.addEventListener("click", () => {
-              openLoginModal();
+              if (!props.session) {
+                openLoginModal();
+              } else {
+                redirect("/pinter");
+              }
             });
 
             // Tooltip hover:
