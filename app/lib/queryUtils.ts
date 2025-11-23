@@ -1,6 +1,6 @@
 "use server";
 //import pool from "@/app/lib/db";
-import { QueryResult, RowDataPacket } from "mysql2/promise";
+import { RowDataPacket } from "mysql2/promise";
 import { PinterStatus } from "./types/enums";
 
 import { PrismaClient } from "@/generated/prisma/client/client";
@@ -8,7 +8,7 @@ import { PrismaClient } from "@/generated/prisma/client/client";
 
 const prisma = new PrismaClient();
 
-export async function SelectQueryBrews(queryString: string, params?: []) {
+export async function SelectQueryBrews() {
   const allUsers = await prisma.brew_styles.findFirst();
   console.log(allUsers);
   return allUsers;

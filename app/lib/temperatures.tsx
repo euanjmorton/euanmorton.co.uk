@@ -1,6 +1,6 @@
-import { SelectQuery } from "./queryUtils";
+//import { SelectQuery } from "./queryUtils";
 
-export const getTemp = async () => {
+/*export const getTemp = async () => {
   const [Temperatures] = await SelectQuery(
     "SELECT * FROM temperatures ORDER BY Date_Time desc LIMIT 1"
   );
@@ -10,4 +10,9 @@ export const getTemp = async () => {
   } catch (e) {
     return "error getting temps";
   }
+};
+*/
+
+export const getTemp = async () => {
+  return 18;
 };
