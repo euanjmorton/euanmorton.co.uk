@@ -51,8 +51,7 @@ const LoginModal = (props: Props) => {
               }
             }}*/
             action={async (formData) => {
-              const r = await loginAction(formData);
-              console.log("result: ", r);
+              const r = await loginAction(formData, props.pageRedirect);
               setEmailError("");
               setPasswordError("");
 
@@ -71,7 +70,7 @@ const LoginModal = (props: Props) => {
                 return;
               }
 
-              router.push(r?.url);
+              router.push(props.pageRedirect);
             }}
             className="text-black"
           >
