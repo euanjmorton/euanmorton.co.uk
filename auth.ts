@@ -6,17 +6,10 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 
 import Credentials from "next-auth/providers/credentials"
 
-import { GetUser } from "./app/lib/queryUtils"
+import { GetUserSalt, verifyHashPassword } from "./app/lib/login/loginUtils";
 import z, { object, string, ZodError } from "zod"
 
-interface UserFromDB {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-}
-
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 const crypto = require('crypto');
 
 
@@ -30,95 +23,47 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 password: {},
             },
             authorize: async (credentials) => {
-                //try{
-                    let user = null
+                let user = null
+                let email = "";
+                let password = "";
 
-                    //const {email, password} = await signInSchema.parseAsync(credentials);
+                if(credentials.email){
+                    email = credentials.email.toString();
+                }
+                if(credentials.password){
+                    password = credentials.password.toString();
+                }
 
-                    let email = "";
-                    let password = "";
+                const userSalt = await GetUserSalt(email);
+                if(!userSalt){
+                    throw new Error("Email not recognised");
+                }
 
-                    if(credentials.email){
-                        email = credentials.email.toString();
-                    }
-                    if(credentials.password){
-                        password = credentials.password.toString();
-                    }
+                const hash = generateHashPassword(password, userSalt);
+                const dbuser = await verifyHashPassword(email, hash)
 
-                    //TODO encrypt/hash pw
-                    const { salt, hash } = hashPassword(password);
-                    console.log('Salt:', salt);
-                    console.log('Hash:', hash);
-                    const pwHash = salt + ":" + hash;
-                    //const email = credentials.email;
+                if (!dbuser) {
+                    console.error("Auth error, invalid credentials");
+                    throw new Error("Invalid credentials.");
+                }
 
-                    const isValid = verifyPassword(password, salt, hash);
+                user = {
+                    id: dbuser.id.toString(),
+                    name: dbuser.name,
+                    email: dbuser.email,
+                }
 
-                    const dbuser = await getUserFromDb(email, hash)
-                    const newuser = (dbuser as UserFromDB);
-
-
-                    if (!dbuser) {
-                        console.error("throw new error");
-                        throw new Error("Invalid credentials.")
-                    }
-
-                    user = {
-                        id: newuser.id,
-                        name: newuser.name,
-                        email: newuser.email,
-                    }
-    
-                    return user;
-                /*}
-                catch(error){
-                    if (error instanceof Error) {
-                        console.error("error message ", error.message);
-
-                        throw new Error(error.message)
-                        //return new Error(error.message);
-                    }
-
-                    console.log('erorrr:', error);
-                    if (error instanceof ZodError) {
-                        console.log('erorrr:ZOD');
-                        const thing = z.treeifyError(error)
-                        const thing2 = JSON.stringify(thing);
-                        throw new Error(thing2);
-                    }
-                    
-                    return null;
-                }*/
+                return user;
             }
         })
     ],
 })
 
-async function getUserFromDb(email: string, pwHash: string){
-    let user = GetUser(email, pwHash);
-
-    return user;
-}
-
-function hashPassword(password: string) {
-
-  const salt = crypto.randomBytes(16).toString('hex');
-
-  // Use scrypt for password hashing (recommended)
+function generateHashPassword(password: string, salt: string) {
   const hash = crypto.scryptSync(password, salt, 64).toString('hex');
 
-  // Return both salt and hash for storage
-  return { salt, hash };
+  return hash;
 }
-
-// Function to verify a password
-function verifyPassword(password: string, salt: string, hash: string) {
-  const hashedPassword = crypto.scryptSync(password, salt, 64).toString('hex');
-  return hashedPassword === hash;
-}
-
-
-
 
 export const signInSchema = object({
   email: string({ error: "Email is required" })
