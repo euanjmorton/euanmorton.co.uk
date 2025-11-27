@@ -1,7 +1,5 @@
 generator client {
   provider = "prisma-client"
-  //output   = "./client"
-
   output   = "../generated/prisma/client"
 }
 
@@ -57,17 +55,18 @@ model pinters {
 }
 
 model temperatures {
-  id          Int       @id @default(autoincrement())
   Temperature String?   @db.VarChar(100)
   Date_Time   DateTime? @db.DateTime(0)
-
+  id          Int       @id @default(autoincrement())
 }
 
 model users {
-  id       Int     @id @default(autoincrement())
-  name     String? @db.VarChar(100)
-  email    String? @db.VarChar(100)
-  password String? @db.VarChar(100)
+  id        Int     @id @default(autoincrement())
+  name      String? @db.VarChar(100)
+  email     String? @db.VarChar(100)
+  password  String? @db.VarChar(255)
+  salt      String? @db.VarChar(100)
+  user_role String? @db.VarChar(100)
 }
 
 enum ispindles_status {

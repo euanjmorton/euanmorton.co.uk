@@ -14,7 +14,7 @@ interface Props {
 const LoginModal = (props: Props) => {
   if (!props.isOpen) return null;
 
-  //const [email, setEmail] = useState("");
+  const [loginError, setLoginError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -34,26 +34,12 @@ const LoginModal = (props: Props) => {
           }}
         >
           <form
-            /*action={async (formData) => {
-              console.log("formData", formData);
-              const result = await signIn("credentials", {
-                email: formData.get("email") as string,
-                password: formData.get("password") as string,
-                redirect: false,
-              });
-
-              console.log("Invalid wqqwd: ", result);
-
-              if (result?.error) {
-                console.log("Invalid credentials: ", result);
-              } else {
-                window.location.href = "/pinter";
-              }
-            }}*/
             action={async (formData) => {
-              const r = await loginAction(formData, props.pageRedirect);
+              setLoginError("");
               setEmailError("");
               setPasswordError("");
+
+              const r = await loginAction(formData, props.pageRedirect);
 
               if (r?.zod) {
                 if (r.zod.email) {
@@ -67,6 +53,7 @@ const LoginModal = (props: Props) => {
 
               if (r?.error) {
                 console.log({ general: [r.error] });
+                setLoginError("Invalid credentials");
                 return;
               }
 
@@ -92,9 +79,12 @@ const LoginModal = (props: Props) => {
                 type="password"
                 placeholder="Enter password"
                 className="w-full border border-gray-300 rounded-lg p-4"
-                //onChange={(e) => setEmail(e.target.value)}
               ></input>
               <p className="text-red-500">{passwordError}</p>
+            </div>
+
+            <div className="flex justify-center mt-20">
+              <p className="text-red-500">{loginError}</p>
             </div>
 
             <button

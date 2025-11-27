@@ -14,10 +14,9 @@ export async function loginAction(formData: FormData, pageRedirect: string) {
         if (!parseResult.success) {
             return { zod: parseResult.error.flatten().fieldErrors };
         }
-
     }
     catch(e){
-        console.log("e",e);
+        console.log("Login zod error",e);
     }
 
     try{
@@ -27,18 +26,16 @@ export async function loginAction(formData: FormData, pageRedirect: string) {
             redirect: false
         });
 
-        console.log("result213" ,result)
-        // wrong credentials
         if (result?.error) {
             return { error: "Invalid credentials" };
         }
 
-        // valid – allow redirect
         return { success: true, url: pageRedirect };
-
     }
     catch(error: any){
-        console.log("e error eee ",error);
+        console.log("Auth signIn error",error);
+
+        return { error: "Error" };
     }
 }
 
