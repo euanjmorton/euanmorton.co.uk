@@ -1,9 +1,10 @@
 "use server";
-import { InsertQuery, UpdatePinterStatus } from "@/app/lib/queryUtils";
+import { UpdatePinterStatus } from "@/app/lib/queryUtils";
 import { PinterStatus } from "@/app/lib/types/enums";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { PrismaClient } from "@/generated/prisma/client/client";
 
 const fileSchema = z.file();
 
@@ -37,46 +38,33 @@ export const startBrew = async (formData: FormData) => {
   const data = FormSchema.parse(rawFormData);
   //console.log(data);
 
-  await InsertQuery(
-    "INSERT INTO brews (" +
-      "pinter," +
-      "brew_type," +
-      "brew_startdate," +
-      "brewing_days," +
-      "cold_crash_days," +
-      "conditioning_days," +
-      "ispindle_id," +
-      "active)" +
-      "VALUES (" +
-      "'" +
-      data.pinter +
-      "'" +
-      ", " +
-      "'" +
-      data.brew_type +
-      "'" +
-      ", " +
-      "'" +
-      data.start_date +
-      "'" +
-      ", " +
-      data.brew_days +
-      ", " +
-      data.cold_crash_days +
-      ", " +
-      data.condition_days +
-      ", " +
-      data.ispindle_id +
-      ", " +
-      true +
-      ")"
-  );
+    const prisma = new PrismaClient();
+    let success = false;
 
-  await UpdatePinterStatus(PinterStatus.Brewing, data.pinter);
+  try{
+    await prisma.brews.create({
+      data: {
+        pinter: parseInt(data.pinter),
+        brew_type: parseInt(data.brew_type),
+        brew_startdate: data.start_date,
+        brewing_days: data.brew_days,
+        cold_crash_days: data.cold_crash_days,
+        conditioning_days: data.condition_days,
+        ispindle_id: data.ispindle_id,
+        active: true
+      }
+    });
+    success = true;
+  }
+  catch(e){
+    console.log("Error writing to db.", e);
+  }
+  
 
+  if(success){
+    await UpdatePinterStatus(data.pinter, PinterStatus.Brewing);
 
-  revalidatePath("/pinter");
-  redirect("/pinter");
-
-  //return result[0];
+    revalidatePath("/pinter");
+    redirect("/pinter");
+  }
 };

@@ -14,8 +14,6 @@ export async function SelectQueryBrews() {
   return allUsers;
 }
 
-//let qS = "SELECT * FROM temperatures WHERE Date_Time >= '" + startDate + "' " + "AND Date_Time <= '" + endDate + "';"
-
 export async function SelectTemps(startDate: string, endDate: string) {
   const temps = await prisma.temperatures.findMany({
     where: {
@@ -25,7 +23,7 @@ export async function SelectTemps(startDate: string, endDate: string) {
       },
     },
   });
-  console.log(temps);
+  
   return temps;
 }
 
@@ -45,59 +43,13 @@ export async function GetUser(email: string, pwHash: string) {
     console.log(user);
     return user;
   }
-
-  const user2 = {
-    id: user.id.toString(),
-    name: user.name,
-    email: user.email,
-    password: user.password,
-  };
-  console.log(user);
-  return user2;
+  
+  return null;
 }
 
-export async function SelectQuery(queryString: string, params?: []) {
-  try {
-    return [];
-    //const results = await pool.execute(queryString, params);
-    //return results as QueryResult[];
-  } catch (e) {
-    console.log("Cant connect", e);
-    return [];
-  }
-}
-export async function SelectQuery2<T extends RowDataPacket>(
-  queryString: string,
-  params?: []
-) {
-  try {
-    return [];
-    //const results = await pool.execute(queryString, params);
-    //return results as RowDataPacket[];
-  } catch (e) {
-    console.log("Cant connect", e);
-    return [];
-  }
-}
-
-export async function InsertQuery(queryString: string, params?: []) {
-  try {
-    return []; //const results = await pool.execute(queryString, params);
-    //return results as RowDataPacket[];
-  } catch (e) {
-    console.log("Cant connect", e);
-    return [];
-  }
-}
-export async function UpdatePinterStatus(status: PinterStatus, pinter: string) {
-  /*try {
-    const results = await pool.execute(
-      "UPDATE pinters SET pinter_status = ? WHERE pinter_id = ?",
-      [status, pinter]
-    );
-    return results as RowDataPacket[];
-  } catch (e) {
-    console.log("Cant connect", e);
-    return [];
-  }*/
+export async function UpdatePinterStatus( pinter: string, status: PinterStatus,) {
+   const user = await prisma.pinters.update({
+    where: { pinter_id: parseInt(pinter) },
+    data: { pinter_status: status },
+  })
 }

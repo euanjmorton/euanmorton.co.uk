@@ -1,20 +1,18 @@
 "use server";
 import moment from "moment";
-import { SelectQuery, SelectTemps } from "./queryUtils";
+import { SelectTemps } from "./queryUtils";
 import { PrismaClient } from "@/generated/prisma/client/client";
+import { Pirata_One } from "next/font/google";
 
 const prisma = new PrismaClient();
 
 export const getPinters = async () => {
-  //const [pinters] = await SelectQuery("SELECT * FROM pinters");
   const allPinters = await prisma.pinters.findMany();
   console.log(allPinters);
   return allPinters;
 };
 
 export const getActiveBrews = async () => {
-  //const [active_brews] = await SelectQuery("SELECT * FROM brews WHERE active = 1");
-
   const activeBrews = await prisma.brews.findMany({
     where: {
       active: true
@@ -25,16 +23,28 @@ export const getActiveBrews = async () => {
 };
 
 export const getBrewTypes = async () => {
-  const [brew_styles] = await SelectQuery("SELECT * FROM brew_styles");
+  const brew_styles = await prisma.brew_styles.findMany();
 
   return brew_styles;
 };
 
 export const getSpindles = async () => {
-  const [spindles] = await SelectQuery("SELECT * FROM ispindles");
+  const spindles = await prisma.ispindles.findMany();
 
   return spindles;
 };
+
+
+export const getLatestTemp = async () => {
+  const latestTemp = await prisma.temperatures.findFirst({
+    orderBy: {
+      id: 'desc',
+    },
+  });
+  console.log(latestTemp);
+  return latestTemp;
+};
+
 
 export const getGraphTemperatureData = async (startDate: string, brewingDays: number) => {
 
@@ -48,11 +58,7 @@ export const getGraphTemperatureData = async (startDate: string, brewingDays: nu
  
   //hardcoded endate for testing:
   endDate = '2025-10-22 22:00:00';
-
-  /*let qS = "SELECT * FROM temperatures WHERE Date_Time >= '" + startDate + "' " +
-    "AND Date_Time <= '" + endDate + "';"*/
   
-  //const [results] = await SelectQuery<TemperatureRow>(qS);
   const [results] = await SelectTemps(startDate, endDate);
   
 

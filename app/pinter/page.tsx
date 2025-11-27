@@ -1,8 +1,8 @@
 import React, { Suspense } from "react";
-import { getTemp } from "@/app/lib/temperatures";
 import PinterButtons from "./PinterButtons";
 import PinterInfos from "./PinterInfos";
 import { auth } from "@/auth";
+import { getLatestTemp } from "../lib/pinterInfo";
 
 const PinterPage = async () => {
   const session = await auth();
@@ -11,7 +11,7 @@ const PinterPage = async () => {
     return <div>Not authenticated</div>;
   }
 
-  const currentTemperature = await getTemp();
+  const currentTemperature = await getLatestTemp();
 
   return (
     <>
@@ -22,7 +22,7 @@ const PinterPage = async () => {
         <h3>Current Temperature:</h3>
 
         <Suspense fallback={<>Loading...</>}>
-          <p>Temp: {currentTemperature}</p>
+          <p>Temp: {currentTemperature?.Temperature}</p>
         </Suspense>
       </div>
       <div>

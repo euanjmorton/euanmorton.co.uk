@@ -1,5 +1,5 @@
 "use server";
-import { InsertQuery } from "@/app/lib/queryUtils";
+import { PrismaClient } from "@/generated/prisma/client/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -34,38 +34,29 @@ export const createStyle = async (formData: FormData) => {
 
   const data = FormSchema.parse(rawFormData);
 
-  await InsertQuery(
-    "INSERT INTO brew_styles (" +
-      "brew_name," +
-      "style," +
-      "brew_days," +
-      "condition_days," +
-      "recommended_brew_days," +
-      "recommended_condition_days," +
-      "abv)" +
-      "VALUES (" +
-      "'" +
-      data.name +
-      "'" +
-      ", " +
-      "'" +
-      data.style +
-      "'" +
-      ", " +
-      data.brew_days +
-      ", " +
-      data.condition_days +
-      ", " +
-      data.recommended_brew_days +
-      ", " +
-      data.recommended_condition_days +
-      ", " +
-      data.abv +
-      ")"
-  );
+  const prisma = new PrismaClient();
+  let success = false;
 
-  revalidatePath("/pinter");
-  redirect("/pinter");
+  try {
+    await prisma.brew_styles.create({
+      data: {
+        brew_name: data.name,
+        style: data.style,
+        brew_days: data.brew_days,
+        condition_days: data.condition_days,
+        recommended_brew_days: data.recommended_brew_days,
+        recommended_condition_days: data.recommended_condition_days,
+        abv: data.abv.toString(),
+      },
+    });
 
-  //return result[0];
+    success = true;
+  } catch (e) {
+    console.log("Error writing brew style to db.", e);
+  }
+
+  if (success) {
+    revalidatePath("/pinter");
+    redirect("/pinter");
+  }
 };

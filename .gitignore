@@ -30,3 +30,5 @@ documentation/Updating Prisma Schema.txt
 .env outside
 
 npm
+
+app/lib/dummyData.ts
